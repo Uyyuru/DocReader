@@ -1,0 +1,42 @@
+# Node
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.*
+
+# Build outputs
+/dist/
+/build/
+/.parcel-cache
+/.next/
+/.out/
+
+# Frontend
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+
+# Backend
+/backend/node_modules/
+/backend/uploads/
+/backend/.cache/
+
+# Coverage
+coverage/
+*.lcov
+
+# IDEs and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Misc
+*.tgz
+*.gz
