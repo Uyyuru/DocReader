@@ -16,12 +16,10 @@ router.post("/", auth, async (req, res) => {
       return res.status(400).json({ error: "Query is required" });
     }
 
-    // 1️⃣ Get query embedding
     const queryVector = await getEmbedding(query);
 
     const userId = new mongoose.Types.ObjectId(req.user._id);
 
-    // 2️⃣ Vector search (MongoDB Atlas)
     const results = await Document.aggregate([
       {
         $vectorSearch: {
@@ -49,7 +47,6 @@ router.post("/", auth, async (req, res) => {
       }
     ]);
 
-    // 3️⃣ If no relevant chunks found
     if (results.length === 0) {
       await ChatHistory.create({
         userId: req.user._id,
@@ -64,7 +61,6 @@ router.post("/", auth, async (req, res) => {
       });
     }
 
-    // 4️⃣ Build context for AI
     const context = results
       .map(r => `File: ${r.filename}\nContent: ${r.content}`)
       .join("\n\n");
@@ -80,10 +76,8 @@ router.post("/", auth, async (req, res) => {
       "I cannot find that information in your documents."
     `;
 
-    // 5️⃣ Generate AI answer
     const answer = await generateAnswer(prompt);
 
-    // 6️⃣ Save history
     await ChatHistory.create({
       userId: req.user._id,
       question: query,
@@ -91,7 +85,6 @@ router.post("/", auth, async (req, res) => {
       references: results
     });
 
-    // 7️⃣ Final response
     res.json({
       success: true,
       answer,

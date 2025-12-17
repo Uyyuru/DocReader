@@ -23,7 +23,7 @@ router.post("/upload", auth, upload.single("file"), async (req, res) => {
       extractedText = pdfData.text || "";
     }
 
-    // ----------------------- TEXT FILES ---------------------
+    
     else if (
       req.file.mimetype.includes("text") ||
       /\.(txt|md|html)$/i.test(req.file.originalname)
@@ -31,14 +31,12 @@ router.post("/upload", auth, upload.single("file"), async (req, res) => {
       extractedText = req.file.buffer.toString("utf8");
     }
 
-    // ----------------------- INVALID FILE -------------------
     else {
       return res.status(400).json({
         error: "Only PDF, TXT, MD, and HTML files are supported."
       });
     }
 
-    // If we could NOT extract text
     if (!extractedText || !extractedText.trim()) {
       return res.status(400).json({
         error: "Could not extract readable text from the uploaded file."
