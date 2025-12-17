@@ -13,7 +13,10 @@ export default function Auth({ onLogin }) {
     setError(null);
     try {
       const res = await api.post("/auth/login", { email, password });
-      onLogin({ username: res.data.username, email });
+      onLogin({
+        username: res.data.username,
+        email
+      });
     } catch (err) {
       setError(err?.response?.data?.error || err.message);
     }
@@ -34,23 +37,64 @@ export default function Auth({ onLogin }) {
   return (
     <div className="auth-card">
       <div className="tabs">
-        <button className={tab === 'login' ? 'active' : ''} onClick={() => setTab('login')}>Login</button>
-        <button className={tab === 'signup' ? 'active' : ''} onClick={() => setTab('signup')}>Sign Up</button>
+        <button
+          className={tab === "login" ? "active" : ""}
+          onClick={() => setTab("login")}
+        >
+          Login
+        </button>
+        <button
+          className={tab === "signup" ? "active" : ""}
+          onClick={() => setTab("signup")}
+        >
+          Sign Up
+        </button>
       </div>
 
-      {tab === 'login' ? (
+      {tab === "login" ? (
         <form className="auth-form" onSubmit={handleLogin}>
-          <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <button className="btn primary" type="submit">Login</button>
+          <input
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button className="btn primary" type="submit">
+            Login
+          </button>
           {error && <div className="error">{error}</div>}
         </form>
       ) : (
         <form className="auth-form" onSubmit={handleSignup}>
-          <input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <button className="btn primary" type="submit">Create Account</button>
+          <input
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            placeholder="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button className="btn primary" type="submit">
+            Create Account
+          </button>
           {error && <div className="error">{error}</div>}
         </form>
       )}
