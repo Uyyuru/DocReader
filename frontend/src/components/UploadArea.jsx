@@ -18,7 +18,8 @@ export default function UploadArea({ onUploaded }) {
       formData.append("file", file);
 
       await api.post("/docs/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true
       });
 
       setStatus("Uploaded successfully");
